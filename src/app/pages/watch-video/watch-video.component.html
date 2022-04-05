@@ -1,0 +1,178 @@
+<!-- Top Search Area Start -->
+<div class="top-search-area">
+        <div class="modal fade" id="newPlayListModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <!-- Close Button -->
+                        <button type="button" class="btn close-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                        <!-- Form -->
+                        <form >
+                            <input [(ngModel)]="entitledNewPlayList" type="search" name="top-search-bar" class="form-control" placeholder="Entrez le nom de votre nouveau playList...">
+                            <button type="submit" (click)="createPlayList()">Search</button>
+                        </form>
+                        <!-- Search Button -->
+                        <div class="search-btn"><i class="icon_search"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <!-- Top Search Area End -->
+     
+      
+    <!-- Blog Area Start -->
+    <section class="razo-blog-area section-padding-80-0">
+        <div class="container">
+            <div class="row">
+                <!-- Weekly News Area -->
+                <div class="col-12 col-md-8">
+                    <div class="weekly-news-area mb-50">
+                        <!-- Section Heading -->
+                        <div class="section-heading">
+                            <h2>Visionnage</h2>
+                        </div>
+
+                        
+						<div class="col-12">
+                            <div class="featured-trending-video mb-30 wow fadeInUp" data-wow-delay="100ms" style="visibility: visible; animation-delay: 100ms; animation-name: fadeInUp;">
+                                <iframe [src]="videoInProgress"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                                <div class="razo-single-post ">
+                                        
+                                        <div class="post-content">
+                                            <div class="post-meta">
+                                                <a (click)="addVideoToCurrentPlayListSelected(title, artist, duratio, img, idVideo)"><i class="fa fa-plus" aria-hidden="true"></i> Ajouter au playlist </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+						
+                        <div class="row">
+                            <h2> Mes PlayLists</h2>
+                            <!-- PlayList -->
+                            <div *ngFor=" let play of myPlayList; let i = index" class="col-12 col-md-6">
+                                <div class="razo-single-post d-flex mb-30">
+                                    <!-- Post Thumbnail -->
+                                    <div class="post-thumbnail">
+                                        <a (click)=" selectExistingPlayList(i)"><img src="assets/img/bg-img/14.jpg" alt=""></a>
+                                    </div>
+                                    <!-- Post Content -->
+                                    <div class="post-content">
+                                        <div class="post-meta">
+                                            <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 2.1k</a>
+                                            <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 3.6k</a>
+                                        </div>
+                                        <a (click)=" selectExistingPlayList(i)" class="post-title">{{play.entitled}}</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Videos -->
+                <div class="col-12 col-md-4">
+                    <div class="trending-news-area mb-50">
+
+                        <!-- Section Heading -->
+                        <div class="section-heading">
+                            <h2>Tendances</h2>
+                        </div>
+
+                        <!-- Featured Post Area -->
+                        <div  class="featured-post-area small-featured-post bg-img bg-overlay mb-30" style="background-image: url(assets/img/bg-img/12.jpg);">
+                            <!-- Post Overlay -->
+                            <div class="post-overlay">
+                                <div class="post-meta" data-toggle="modal" data-target="#newPlayListModal">
+                                    <a href="#"><i class="fa fa-plus" aria-hidden="true"></i> Ajouter un nouveau playList</a>
+                                   <!-- Search Icon -->
+                          
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Single Post Area -->
+                        <div  *ngFor="let video of videos" class="razo-single-post d-flex mb-30" >
+                            <!-- Post Thumbnail -->
+                            <div class="post-thumbnail post-content">
+                                <a ><img src="{{video.snippet.thumbnails.default.url}}" alt=""  (click)="selectVideoToWatch(video.id.videoId)"></a>
+                                <div class="post-meta">
+                                        <a (click)="addVideoToCurrentPlayListSelected(video.snippet.title, video.snippet.channelTitle, video.snippet.publishedAt, video.snippet.thumbnails.default.url, video.id.videoId)" ><i class="fa fa-plus" aria-hidden="true"></i> playlist</a>
+                                    </div>
+                            </div>
+                            <!-- Post Content -->
+                            <div class="post-content">
+                                
+                                <a (click)="selectVideoToWatch(video.id.videoId)"class="post-title">{{video.snippet.title}}</a>
+                            </div>
+                        </div>
+
+                       
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Area End -->
+ 
+ <!-- Music Charts Area Start -->
+ <section  *ngIf="currentPlayList!=null"  class="razo-music-charts-area section-padding-80 bg-overlay bg-img jarallax" style="background-image: url(assets/img/bg-img/31.jpg);">
+    <div class="container">
+        <div class="row">
+            <!-- Section Heading -->
+            <div class="col-sm-6">
+                <div class="section-heading white">
+                    <h2>{{currentPlayList.entitled}}</h2>
+                </div>
+            </div>
+            <!-- Show All Button -->
+            <div class="col-sm-6">
+                <div class="show-all-button mb-50 text-right">
+                    <a href="#" class="btn show-all-btn">Liste des {{videoNumberOfCurrentPlayList}} du playList actuel</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div cdkDropList class=" col-12" (cdkDropListDropped)="drop($event)">
+
+                <!-- Single Music Chart -->
+                <div  *ngFor="let videoPL of currentPlayList.videos" cdkDrag class="single-music-chart d-flex align-items-center justify-content-between wow fadeInUp" data-wow-delay="100ms">
+                    <!-- Music Content -->
+                    <div class="music-content d-flex align-items-center">
+                        <div class="sl-number">
+                            <h5>{{videoPL.rank}}</h5>
+                        </div>
+                        <div class="music-thumb">
+                            <!--  <img src="./assets/img/bg-img/25.jpg" alt="">-->
+                           <img src="{{videoPL.img}}" alt="">  
+                        </div>
+                        <div class="audio-player">
+                            <audio preload="auto" controls>
+                                <source src="./assets/audio/dummy-audio.mp3">
+                            </audio>
+                        </div>
+                        <div class="music-title">
+                            <h5>{{videoPL.title}} - <span>{{videoPL.artist}}</span></h5>
+                        </div>
+                    </div>
+                    <!-- Music Price -->
+                    <div class="music-price">
+                        <a href="#" class="btn razo-btn btn-2">{{videoPL.duration}}</a>
+                    </div>
+                </div>
+
+               
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Music Charts Area End -->
+
+   
+   
+

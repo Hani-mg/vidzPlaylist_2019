@@ -1,0 +1,53 @@
+<section class="razo-latest-podcast-area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Section Heading -->
+                <div class="section-heading">
+                    <h2></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!-- Single Podcast Area -->
+            <div *ngFor="let video of videos" class="col-12 col-md-6 col-xl-3">
+                <div class="single-podcast-area mb-30 wow fadeInUp" data-wow-delay="100ms" style="visibility: visible; animation-delay: 100ms; animation-name: fadeInUp;">
+                    <!-- Thumbnail -->
+                    <div class="podcast-thumb">
+                        <img src="{{video.snippet.thumbnails.medium.url}}" alt="">
+                        <div class="like-comment">
+                            <a href="#" class="like">2 <i class="icon_heart"></i></a>
+                            <a href="#" class="like">2 <i class="icon_chat"></i></a>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <div class="podcast-content">
+                        <div class="podcast-meta">
+                            <a href="#"><i class="icon_calendar"></i>{{ video.snippet.publishedAt}}</a>
+                           <!-- <a href="#"><i class="icon_clock_alt"></i> 36 min</a> -->
+                        </div>
+                        <h5>{{video.snippet.title}}</h5>
+                        <div class="border-line"></div>
+                        <div class="play-download-btn d-flex align-items-center justify-content-between">
+                            <a (click)="watchVideo(video.id.videoId)" class="btn razo-btn btn-sm">voir</a>
+                            <a href="audio/dummy-audio.mp3" class="music-download-btn" download=""><i class="icon_download"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="view-more-button text-center">
+                    <a href="#" class="btn razo-btn mt-50">View More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
